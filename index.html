@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Notepad</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      .toolbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: black;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+      }
+      .toolbar button {
+        margin-right: 10px;
+        padding: 5px 10px;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      .toolbar button:last-child {
+        margin-right: 0;
+      }
+      #editor {
+        flex: 1;
+        padding: 20px;
+        padding-top: 70px;
+        border: none;
+        outline: none;
+        resize: none;
+        overflow-y: auto;
+        box-sizing: border-box;
+        background-color: #212529;
+        color: #f8f9fa;
+        font-size: 24px;
+      }
+      #editor[contenteditable="true"] {
+        min-height: 100%;
+      }
+      .button {
+        background-color: #219ebc;
+        color: #f8f9fa;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .button:hover {
+        background-color: #15616d;
+      }
+      .button:active {
+        background-color: #f8f9fa;
+        color: black;
+      }
+      #red {
+        background-color: red;
+      }
+      #green {
+        background-color: green;
+      }
+      #orange {
+        background-color: #fb8500;
+      }
+      #white {
+        background-color: white;
+        color: black;
+      }
+      #highlight {
+        background-color: yellow;
+        color: black;
+      }
+      #red:hover,
+      #green:hover,
+      #orange:hover,
+      #white:hover,
+      #highlight:hover {
+        background-color: #15616d;
+        color: #f8f9fa;
+      }
+      #red:active,
+      #green:active,
+      #orange:active,
+      #white:active,
+      #highlight:active {
+        background-color: #f8f9fa;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <button class="button" id="red" onclick="changeColor('#f95738')">
+        Red
+      </button>
+      <button class="button" id="green" onclick="changeColor('green')">
+        Green
+      </button>
+      <button class="button" id="orange" onclick="changeColor('#fb8500')">
+        Orange
+      </button>
+      <button class="button" id="white" onclick="changeColor('white')">
+        White
+      </button>
+      <button class="button" id="highlight" onclick="changeColor('yellow')">
+        Highlight
+      </button>
+      <button class="button" onclick="removeFormatting()">
+        Remove Formatting
+      </button>
+    </div>
+    <div
+      id="editor"
+      contenteditable="true"
+      placeholder="Start typing here..."
+    ></div>
+    <div id="jsonCard">
+      <pre><code id="jsonOutput"></code></pre>
+    </div>
+    <script>
+      const editor = document.getElementById("editor");
+      const jsonOutput = document.getElementById("jsonOutput");
+      const jsonCard = document.getElementById("jsonCard");
+      let jsonData = {};
+
+      function changeColor(color) {
+        if (color === "yellow") {
+          document.execCommand("hiliteColor", false, color);
+          document.execCommand("foreColor", false, "black");
+        } else if (color === "white") {
+          document.execCommand("hiliteColor", false, "black");
+          document.execCommand("foreColor", false, color);
+        } else {
+          document.execCommand("foreColor", false, color);
+        }
+      }
+
+      function removeFormatting() {
+        document.execCommand("removeFormat", false, null);
+      }
+
+      function convertToJson() {}
+
+      function beautifyJson() {}
+
+      editor.addEventListener("input", () => {
+        localStorage.setItem("richTextContent", editor.innerHTML);
+      });
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const savedContent = localStorage.getItem("richTextContent");
+        if (savedContent) {
+          editor.innerHTML = savedContent;
+        }
+      });
+    </script>
+  </body>
+</html>
