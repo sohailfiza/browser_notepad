@@ -43,7 +43,7 @@
         box-sizing: border-box;
         background-color: #212529;
         color: #f8f9fa;
-        font-size: 24px;
+        font-size: 20px;
       }
       #editor[contenteditable="true"] {
         min-height: 100%;
@@ -97,6 +97,9 @@
         background-color: #f8f9fa;
         color: black;
       }
+      #editor * {
+        line-height: 28px !important;
+      }
     </style>
   </head>
   <body>
@@ -125,14 +128,8 @@
       contenteditable="true"
       placeholder="Start typing here..."
     ></div>
-    <div id="jsonCard">
-      <pre><code id="jsonOutput"></code></pre>
-    </div>
     <script>
       const editor = document.getElementById("editor");
-      const jsonOutput = document.getElementById("jsonOutput");
-      const jsonCard = document.getElementById("jsonCard");
-      let jsonData = {};
 
       function changeColor(color) {
         if (color === "yellow") {
